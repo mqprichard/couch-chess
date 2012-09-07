@@ -20,7 +20,7 @@ import com.google.gson.stream.JsonWriter;
 public class MoveServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private MongoDAO dao = new MongoDAO();
+	private CouchDAO dao = new CouchDAO();
 	public enum Player { WHITE, BLACK };
 
 	@GET
@@ -31,9 +31,7 @@ public class MoveServlet extends HttpServlet {
 		StatusType statusCode = null;
 		String msg = null;
 		
-		try {			
-		    dao.connect();
-
+		try {
 		    msg = dao.getMoves( id );
 		    statusCode = Response.Status.OK;
 		} 
@@ -44,7 +42,6 @@ public class MoveServlet extends HttpServlet {
     		statusCode = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		finally {
-			dao.getMongo().close();
 		}
 		
 		if (statusCode != Response.Status.OK)
@@ -66,8 +63,6 @@ public class MoveServlet extends HttpServlet {
 		JsonWriter writer = new JsonWriter(sw);
 		
 		try {			
-		    dao.connect();
-		    
 		    String strGame = move.getGame();
 		    
 		    // Check whose move is expected next
@@ -116,7 +111,6 @@ public class MoveServlet extends HttpServlet {
     		statusCode = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		finally {
-			dao.getMongo().close();
 		}
 	
 		if (statusCode != Response.Status.OK)

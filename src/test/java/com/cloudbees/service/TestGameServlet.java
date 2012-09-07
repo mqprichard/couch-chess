@@ -69,7 +69,7 @@ public class TestGameServlet {
 			assertEquals(json.getLong("move"), testMove);
 			
 			// Try to get game with invalid id
-			System.out.println( "Testing with malformed object id: IllegalArgumentException" );
+			System.out.println( "Testing with malformed object id: DocumentNotFoundException" );
 			response = gameServlet.getGame( badIdGarbage );
 			assertEquals( response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode() );
 			System.out.println( "Testing with empty object id: IllegalArgumentException" );

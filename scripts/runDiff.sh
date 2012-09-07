@@ -14,7 +14,7 @@ jsonElement(){
         fi
 }
 
-newgame=`curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"white":"Player1","black":"Player2","description":"Championship"}' http://chess.partnerdemo.cloudbees.net/chess/game/new`
+newgame=`curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"white":"Player1","black":"Player2","description":"Championship"}' http://couchchess.mqprichard.cloudbees.net/chess/game/new`
 gameid=$(jsonElement "id" $newgame)
 
 sed s/GAME/$gameid/g templateGame1.sh > tmpGame1.sh
@@ -24,7 +24,7 @@ chmod u+x tmpGame1.sh
 diff <(./tmpGame1.sh) tmpGame1.out
 rm -f tmpGame1.sh tmpGame1.out
 
-newgame=`curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"white":"Player1","black":"Player2","description":"Championship"}' http://chess.partnerdemo.cloudbees.net/chess/game/new`
+newgame=`curl -s -H "Accept: application/json" -H "Content-Type: application/json" -X POST -d '{"white":"Player1","black":"Player2","description":"Championship"}' http://couchchess.mqprichard.cloudbees.net/chess/game/new`
 gameid=$(jsonElement "id" $newgame)
 
 sed s/GAME/$gameid/g templateGame2.sh > tmpGame2.sh

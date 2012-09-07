@@ -13,6 +13,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.StatusType;
 
+import org.ektorp.DocumentNotFoundException;
+
 import com.cloudbees.model.Game;
 import com.google.gson.stream.JsonWriter;
 
@@ -20,7 +22,7 @@ import com.google.gson.stream.JsonWriter;
 public class GameServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	private MongoDAO dao = new MongoDAO();
+	private CouchDAO dao = new CouchDAO();
 	
 	@GET
     @Path("{id}")	
@@ -28,18 +30,39 @@ public class GameServlet extends HttpServlet {
 	public Response getGame(@PathParam("id") String id ) {
 		
 		StatusType statusCode = null;
+		Game game = null;
 		String msg = null;
 		
+		StringWriter sw = new StringWriter();
+		JsonWriter writer = new JsonWriter(sw);
+		
 		try {
-			dao.connect();	
-			msg = dao.getGame( id );
+			game = dao.getGame( id );
 			
-			if ( msg != null )
+			if (game != null ) {
+				writer.beginObject();
+				writer.name("white").value( game.getWhite());
+				writer.name("black").value(game.getBlack());
+				writer.name("description").value(game.getDescription());
+				writer.name("result").value(game.getResult());
+				writer.name("next").value(game.getNext());
+				writer.name("move").value(game.getMove());
+				writer.endObject();
+				writer.close();
+
 				statusCode = Response.Status.OK;
+				msg = sw.toString();
+			}
 			else
 				// IllegalArgumentException/NullPointerException
 				statusCode = Response.Status.BAD_REQUEST;
-		}		
+		}
+		catch (DocumentNotFoundException e) {
+			statusCode = Response.Status.BAD_REQUEST;
+		}
+		catch (IllegalArgumentException e){
+			statusCode = Response.Status.BAD_REQUEST;
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 
@@ -47,7 +70,6 @@ public class GameServlet extends HttpServlet {
     		statusCode = Response.Status.INTERNAL_SERVER_ERROR;			
 		}
 		finally {
-			dao.getMongo().close();
 		}
 
 		if (statusCode != Response.Status.OK)
@@ -68,8 +90,6 @@ public class GameServlet extends HttpServlet {
 		JsonWriter writer = new JsonWriter(sw);
 
 		try {			
-		    dao.connect();
-
 		    // Create a new game (key = game id)
 			String id = dao.newGame( game );
 			if (id == null) {
@@ -92,7 +112,6 @@ public class GameServlet extends HttpServlet {
     		statusCode = Response.Status.INTERNAL_SERVER_ERROR;
 		}
 		finally {
-			dao.getMongo().close();
 		}
 
 		if (statusCode != Response.Status.OK)
@@ -101,10 +120,10 @@ public class GameServlet extends HttpServlet {
 			return Response.status(statusCode).entity(msg).build();	
 	}
 	
-	public MongoDAO getDao() {
+	public CouchDAO getDao() {
 		return dao;
 	}
-	public void setDao(MongoDAO dao) {
+	public void setDao(CouchDAO dao) {
 		this.dao = dao;
 	}
 }

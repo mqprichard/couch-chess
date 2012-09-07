@@ -20,9 +20,9 @@ public class TestMoveServlet {
 	private String testWhiteMove = "";
 	private String testBlackMove = "";
 	
-	private String testMoves1W = "[{ \"white\" : \"e2-e4\"}]";
-	private String testMoves1B = "[{ \"white\" : \"e2-e4\"}, { \"black\" : \"e7-e5\"}]";
-	private String testMoves2W = "[{ \"white\" : \"e2-e4\"}, { \"black\" : \"e7-e5\"}, { \"white\" : \"d2-d4\"}]";
+	private String testMoves1W = "[{\"white\":\"e2-e4\"}]";
+	private String testMoves1B = "[{\"white\":\"e2-e4\"},{\"black\":\"e7-e5\"}]";
+	private String testMoves2W = "[{\"white\":\"e2-e4\"},{\"black\":\"e7-e5\"},{\"white\":\"d2-d4\"}]";
 
 	@Test
 	public void testMoveServlet() {
@@ -75,6 +75,10 @@ public class TestMoveServlet {
 			testWhiteMove = "";
 			testBlackMove = "e7-e5";
 			testMoveNo = 1L;
+			testMove = new Move(testWhiteMove, 
+				 	 			testBlackMove,
+				 	 			testMoveNo,
+				 	 			testGameId );
 			
 			testMove.setWhite( testWhiteMove );
 			testMove.setBlack( testBlackMove );
@@ -96,9 +100,9 @@ public class TestMoveServlet {
 			testMoveNo = 1L;
 			
 			testMove = new Move(testWhiteMove, 
-								 	 testBlackMove,
-								 	 testMoveNo,
-								 	 testGameId );
+								testBlackMove,
+								testMoveNo,
+								testGameId );
 			
 			response = moveServlet.newMove( testMove );
 			assertFalse( response == null );
@@ -110,9 +114,9 @@ public class TestMoveServlet {
 			testMoveNo = 2L;
 			
 			testMove = new Move(testWhiteMove, 
-				 	 testBlackMove,
-				 	 testMoveNo,
-				 	 testGameId );
+				 	 			testBlackMove,
+				 	 			testMoveNo,
+				 	 			testGameId );
 
 			response = moveServlet.newMove( testMove );
 			assertFalse( response == null );
@@ -124,9 +128,9 @@ public class TestMoveServlet {
 			testMoveNo = 2L;
 	
 			testMove = new Move(testWhiteMove, 
-				 	 testBlackMove,
-				 	 testMoveNo,
-				 	 testGameId );
+				 	 			testBlackMove,
+				 	 			testMoveNo,
+				 	 			testGameId );
 
 			response = moveServlet.newMove( testMove );
 			assertFalse( response == null );

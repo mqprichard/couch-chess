@@ -1,10 +1,15 @@
 package com.cloudbees.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.*;
+import org.ektorp.support.CouchDbDocument;
+import org.ektorp.support.TypeDiscriminator;
 
+@JsonIgnoreProperties({"id", "revision"})
 @XmlRootElement
-public class Game {
-	protected long id;
+public class Game extends CouchDbDocument {
+	private static final long serialVersionUID = 1L;
+	
 	protected String white;
 	protected String black;
 	protected String description;
@@ -12,8 +17,10 @@ public class Game {
 	protected long move;
 	protected String result;
 
+    private String id;
+    private String revision;
+
 	public Game() {
-		this.id = 0;
 		this.white = "";
 		this.black = "";
 		this.description = "";
@@ -25,7 +32,6 @@ public class Game {
 	public Game(String white, 
 				String black, 
 				String description) {
-		this.id = 0;
 		this.white = white;
 		this.black = black;
 		this.description = description;
@@ -81,8 +87,24 @@ public class Game {
 	public void setResult(String result) {
 		this.result = result;
 	}
-
-	public long getId() {
+	
+	@JsonProperty("_id")
+	public String getId() {
 		return id;
+	}
+
+	@JsonProperty("_id")
+	public void setId(String id) {
+		this.id = id;
+	}
+	
+	@JsonProperty("_rev")
+	public String getRevision() {
+		return revision;
+	}
+
+	@JsonProperty("_rev")
+	public void setRevision(String revision) {
+		this.revision = revision;
 	}
 }
