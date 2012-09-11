@@ -80,7 +80,7 @@ public class TestGameServlet {
 			assertEquals( response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode() );
 			
 			// Try to get game with non-existent id
-			System.out.println( "Testing with non-existent object id: NullPointerException" );
+			System.out.println( "Testing with non-existent object id: DocumentNotFoundException" );
 			response = gameServlet.getGame( badIdNonExistent );
 			assertEquals( response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode() );
 		}

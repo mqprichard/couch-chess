@@ -22,7 +22,7 @@ public class TestCouchDAO {
 	private String moveId = "";
 	private String testWhiteMove = "e2-e4";
 	private String testBlackMove = "e7-e5";
-	private String testMoves1B = "[{\"white\":\"e2-e4\"},{\"black\":\"e7-e5\"}]";
+	private String testMoves1B = "[{\"move\":1,\"white\":\"e2-e4\"},{\"move\":1,\"black\":\"e7-e5\"}]";
 
 	@Test
 	public void testGame() {
