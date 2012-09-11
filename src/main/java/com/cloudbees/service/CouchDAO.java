@@ -211,6 +211,7 @@ public class CouchDAO {
 			while (moves.hasNext()) {
 				Move move = moves.next();
 				writer.beginObject();
+				writer.name("move").value(move.getMove());
 				if (!move.getWhite().isEmpty())
 					writer.name("white").value(move.getWhite());
 				else
