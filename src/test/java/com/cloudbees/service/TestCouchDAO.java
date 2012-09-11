@@ -22,6 +22,7 @@ public class TestCouchDAO {
 	private String moveId = "";
 	private String testWhiteMove = "e2-e4";
 	private String testBlackMove = "e7-e5";
+	private String testMoves1B = "[{\"white\":\"e2-e4\"},{\"black\":\"e7-e5\"}]";
 
 	@Test
 	public void testGame() {
@@ -92,16 +93,7 @@ public class TestCouchDAO {
 			
 			// Get array of moves for game
 			String result = dao.getMoves( testId );
-			String response = "{result:" + result.toString() + "}";
-			JSONObject jObject = new JSONObject(response);
-			JSONArray jsonMoves = jObject.getJSONArray("result");
-			assertEquals( jsonMoves.length(), 2);
-			
-			// Validate array elements for both moves
-			JSONObject first = jsonMoves.getJSONObject( 0 );
-			assertEquals( first.getString( "white"), testWhiteMove );		
-			JSONObject second = jsonMoves.getJSONObject( 1 );
-			assertEquals( second.getString( "black"), testBlackMove );	
+			assertEquals( result, testMoves1B );
 		}
 		catch (Exception e) {
 			e.printStackTrace();

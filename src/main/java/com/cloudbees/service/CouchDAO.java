@@ -23,7 +23,7 @@ import com.google.gson.stream.JsonWriter;
 public class CouchDAO {
 	protected String envCouchURI = "";
 	//protected String strURI = "http://localhost:5984";
-	protected String strURI = "http://mqprichard.cloudbees.cloudant.com/couchchess/";
+	protected String strURI = "http://mqprichard.cloudbees.cloudant.com/chess/";
 	protected String envCouchUsername = "";
 	protected String envCouchPassword = "";
 	protected String envCouchDatabase = "chess";
@@ -59,8 +59,17 @@ public class CouchDAO {
 			envCouchPassword = System.getenv( "couchchess_Password" );
 			envCouchDatabase = System.getenv( "couchchess_Database" );
 			
-			if ( ! (envCouchURI == null) )
+			// Use System properties if system environment not set
+			if ( envCouchURI == null ) {
+				envCouchURI = System.getProperty( "couchchess_couchURI" );
+				envCouchUsername = System.getProperty( "couchchess_Username" );
+				envCouchPassword = System.getProperty( "couchchess_Password" );
+				envCouchDatabase = System.getProperty( "couchchess_Database" );
+			}
+			
+			if ( ! (envCouchURI == null) ) {
 				strURI = envCouchURI;
+			}
 			else
 				System.out.println( "CouchURI system environment not set - " 
 									+ "Using default: " + strURI);
