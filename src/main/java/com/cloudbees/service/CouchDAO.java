@@ -21,6 +21,12 @@ import com.cloudbees.model.Move;
 import com.google.gson.stream.JsonWriter;
 
 public class CouchDAO {
+	protected String envCouchURI = "";
+	//protected String strURI = "http://localhost:5984";
+	protected String strURI = "http://mqprichard.cloudbees.cloudant.com/couchchess/";
+	protected String envCouchUsername = "";
+	protected String envCouchPassword = "";
+	protected String envCouchDatabase = "chess";
 
 	protected HttpClient httpClient;
 	protected CouchDbInstance dbInstance;
@@ -47,7 +53,26 @@ public class CouchDAO {
 	
 	public CouchDAO() {
 		try {
-			httpClient = new StdHttpClient.Builder().url("http://localhost:5984").build();
+			// Get CouchDB connection params from system environment
+			envCouchURI = System.getenv( "couchchess_couchURI" );
+			envCouchUsername = System.getenv( "couchchess_Username" );
+			envCouchPassword = System.getenv( "couchchess_Password" );
+			envCouchDatabase = System.getenv( "couchchess_Database" );
+			
+			if ( ! (envCouchURI == null) )
+				strURI = envCouchURI;
+			else
+				System.out.println( "CouchURI system environment not set - " 
+									+ "Using default: " + strURI);
+
+			httpClient = new StdHttpClient.Builder()
+										  .url(strURI)
+										  .username(envCouchUsername)
+										  .password(envCouchPassword)
+										  .maxConnections(100)
+										  .connectionTimeout(10000)
+										  .socketTimeout(20000)
+										  .build();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -55,7 +80,7 @@ public class CouchDAO {
 	
 	public CouchDbConnector getCouchDB() {
 		dbInstance = new StdCouchDbInstance(httpClient);
-		db = new StdCouchDbConnector("chess", dbInstance);
+		db = new StdCouchDbConnector(envCouchDatabase, dbInstance);
 		return db;
 	}
 	
