@@ -22,7 +22,8 @@ public class TestCouchDAO {
 	private String moveId = "";
 	private String testWhiteMove = "e2-e4";
 	private String testBlackMove = "e7-e5";
-	private String testMoves1B = "[{\"move\":1,\"white\":\"e2-e4\"},{\"move\":1,\"black\":\"e7-e5\"}]";
+	private String testMoves1W = "{\"move\":1,\"white\":\"e2-e4\"}";
+	private String testMoves1B = "{\"move\":1,\"black\":\"e7-e5\"}";
 
 	@Test
 	public void testGame() {
@@ -93,7 +94,8 @@ public class TestCouchDAO {
 			
 			// Get array of moves for game
 			String result = dao.getMoves( testId );
-			assertEquals( result, testMoves1B );
+			assertEquals( result.contains(testMoves1W), true);
+			assertEquals( result.contains(testMoves1B), true);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

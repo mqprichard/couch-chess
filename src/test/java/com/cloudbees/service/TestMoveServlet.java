@@ -19,10 +19,6 @@ public class TestMoveServlet {
 	private long testMoveNo = 0;
 	private String testWhiteMove = "";
 	private String testBlackMove = "";
-	
-	//private String testMoves1W = "[{\"move\":1,\"white\":\"e2-e4\"}]";
-	//private String testMoves1B = "[{\"move\":1,\"black\":\"e7-e5\"},{\"move\":1,\"white\":\"e2-e4\"}]";
-	//private String testMoves2W = "[{\"move\":1,\"black\":\"e7-e5\"},{\"move\":2,\"white\":\"d2-d4\"},{\"move\":1,\"white\":\"e2-e4\"}]";
 	private String testMoves1W = "{\"move\":1,\"white\":\"e2-e4\"}";
 	private String testMoves1B = "{\"move\":1,\"black\":\"e7-e5\"}";
 	private String testMoves2W = "{\"move\":2,\"white\":\"d2-d4\"}";

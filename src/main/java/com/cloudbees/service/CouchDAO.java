@@ -53,7 +53,7 @@ public class CouchDAO {
 	
 	public CouchDAO() {
 		try {
-			// Get CouchDB connection params from system environment
+			// Get CouchDB connection parameters from system environment
 			envCouchURI = System.getenv( "couchchess_couchURI" );
 			envCouchUsername = System.getenv( "couchchess_Username" );
 			envCouchPassword = System.getenv( "couchchess_Password" );
