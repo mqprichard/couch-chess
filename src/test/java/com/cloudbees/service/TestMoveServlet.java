@@ -20,10 +20,14 @@ public class TestMoveServlet {
 	private String testWhiteMove = "";
 	private String testBlackMove = "";
 	
-	private String testMoves1W = "[{\"move\":1,\"white\":\"e2-e4\"}]";
-	private String testMoves1B = "[{\"move\":1,\"black\":\"e7-e5\"},{\"move\":1,\"white\":\"e2-e4\"}]";
-	private String testMoves2W = "[{\"move\":1,\"black\":\"e7-e5\"},{\"move\":1,\"white\":\"e2-e4\"},{\"move\":2,\"white\":\"d2-d4\"}]";
+	//private String testMoves1W = "[{\"move\":1,\"white\":\"e2-e4\"}]";
+	//private String testMoves1B = "[{\"move\":1,\"black\":\"e7-e5\"},{\"move\":1,\"white\":\"e2-e4\"}]";
+	//private String testMoves2W = "[{\"move\":1,\"black\":\"e7-e5\"},{\"move\":2,\"white\":\"d2-d4\"},{\"move\":1,\"white\":\"e2-e4\"}]";
+	private String testMoves1W = "{\"move\":1,\"white\":\"e2-e4\"}";
+	private String testMoves1B = "{\"move\":1,\"black\":\"e7-e5\"}";
+	private String testMoves2W = "{\"move\":2,\"white\":\"d2-d4\"}";
 
+	
 	@Test
 	public void testMoveServlet() {
 		
@@ -69,7 +73,7 @@ public class TestMoveServlet {
 			response = moveServlet.getMoves( testGameId );
 			assertFalse( response == null );
 			assertEquals( response.getStatus(), Response.Status.OK.getStatusCode() );
-			assertEquals( response.getEntity().toString(), testMoves1W );
+			assertEquals( response.getEntity().toString().contains(testMoves1W), true);
 			
 			// Test a black move
 			testWhiteMove = "";
@@ -92,7 +96,8 @@ public class TestMoveServlet {
 			response = moveServlet.getMoves( testGameId );
 			assertFalse( response == null );
 			assertEquals( response.getStatus(), Response.Status.OK.getStatusCode() );
-			assertEquals( response.getEntity().toString(), testMoves1B );
+			assertEquals( response.getEntity().toString().contains(testMoves1W), true);
+			assertEquals( response.getEntity().toString().contains(testMoves1B), true);
 			
 			// Error: move number out of sequence 
 			testWhiteMove = "e2-e4";
@@ -153,7 +158,9 @@ public class TestMoveServlet {
 			response = moveServlet.getMoves( testGameId );
 			assertFalse( response == null );
 			assertEquals( response.getStatus(), Response.Status.OK.getStatusCode() );
-			assertEquals( response.getEntity().toString(), testMoves2W );
+			assertEquals( response.getEntity().toString().contains(testMoves1W), true);
+			assertEquals( response.getEntity().toString().contains(testMoves1B), true);
+			assertEquals( response.getEntity().toString().contains(testMoves2W), true);
 		}
 		catch( Exception e ) {
 			e.printStackTrace();
